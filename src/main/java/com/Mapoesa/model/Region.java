@@ -14,6 +14,19 @@ public class Region{
 	 
 	@Column(name = "nomRegion" )
 	private String nomRegion;
+	
+	@Column(name = "idProjet" )
+	private int idProjet;
+	
+	
+
+	public int getIdProjet() {
+		return idProjet;
+	}
+
+	public void setIdProjet(int idProjet) {
+		this.idProjet = idProjet;
+	}
 
 	public int getIdRegion() {
 		return idRegion;

@@ -24,32 +24,6 @@ insert into utilisateur(nom,prenom,age,sexe,adresse,idRoleCompte,adresseMail,mot
         ("Andriniaina", "Toky",34,"HOMME","Lot IHD Tana 102",2,sha1("toky"),sha1("toky")),
         ("Andriatony","Tony",43,"HOMME","Lot IHD Tana 106",2,sha1("tony"),sha1("tony"));
 
-create table region(
-    idRegion int primary key not null AUTO_INCREMENT,
-    nomRegion varchar(100)
-);
-insert into region(nomRegion) values ("Atsinanana"),("Sofia");
-
-
-create table distrique(
-    idDistrique int primary key not null AUTO_INCREMENT,
-    nomDistrique varchar(100),
-    idRegion int,
-    foreign key (idRegion) references region(idRegion)
-);
-insert into distrique(nomDistrique,idRegion) values ("Ampanihy",1),("Beloha",1),("Tsihombe",1),("Toamasina II",2),(" Befandriana Nord",1),("Port Berger",1),("Bealanana",2),("Analalava",2);
-
-create table commune(
-    idCommune int primary key not null AUTO_INCREMENT,
-    nomCommune varchar(100),
-    idDistrique int,
-    foreign key (idDistrique) references distrique(idDistrique)
-);
-insert into commune(nomCommune,idDistrique) 
-    values ("Androka",1),("Belafike",1),("Ejeda",1),("Gogogogo",1),
-        ("Behabobo",2),("Beloha",2),("Kopoky",2),("Marolinta",2),("Tranoroa",2),("Tranovaho",2),
-        ("Anjampaly",3),("Antaritarika",3),("Faux-cap",3),("Imongy",3),("Marovato",3),("Nikoly",3);
-
 create table status(
     idstatut int primary key not null AUTO_INCREMENT,
     nomStatus varchar(100),
@@ -64,51 +38,80 @@ create table priorite(
 insert into priorite(nomPriorite) values("élevée"),("normale"),("basse");
 
 
-create table categireProjet(
-    idCategireProjet int primary key not null AUTO_INCREMENT,
-    nomCategireProjet varchar(500),
-    description varchar(1000)
-);
-insert into categireProjet(nomCategireProjet) values ("Catégorie 1"),("Catégorie 2"),("Catégorie 3"),("Catégorie 4"),("Autre");
-
-
--- Mbola tsy vita
-create table volet(
-    idVolet int primary key not null AUTO_INCREMENT,
-    nomVolet varchar(100)
-);
-insert into volet(nomVolet) values("P1"),("P2"),("Transversale"),("P3");
-
-create table activites(
-    idActivites int primary key not null AUTO_INCREMENT,
-    nomActivites varchar(100)
-);
-insert into activites(nomActivites) values("Gouvernance"),("Protection sociale"),("GRC"),("Alphabétisation");
-
+-- Classification
 create table projet(
     idProjet int primary key not null AUTO_INCREMENT,
     nomProjet varchar(500),
-    idVolet int,
-    idActivites int,
     details varchar(1000),
-    powerAppId varchar(100),
-    idRegion int,
-    idDistrique int,
-    commune varchar(100),
-    fokotany varchar(100),
-    foreign key (idVolet) references volet(idVolet),
-    foreign key (idActivites) references activites(idActivites),
-    foreign key (idRegion) references region(idRegion),
-    foreign key (idDistrique) references distrique(idDistrique)
+    powerAppId varchar(100)
 );
+-- projet RIMA
+insert into projet(nomProjet,details,powerAppId)
+    values ("RIMA","","");
 
+create table volet(
+    idVolet int primary key not null AUTO_INCREMENT,
+    nomVolet varchar(100),
+    idProjet int,
+    foreign key (idProjet) references projet(idProjet)
+);
+-- projet RIMA
+insert into volet(nomVolet,idProjet) values("Distribution de vivres GFD",1),("FFA",1),("Nutrition",1),("Protection",1);
+
+create table activites(
+    idActivites int primary key not null AUTO_INCREMENT,
+    nomActivites varchar(100),
+    idVolet int,
+    foreign key(idVolet) references volet(idVolet)
+);
+-- projet RIMA
+insert into activites(nomActivites,idVolet)
+    values ("Planning",1),("Liste participants",1),("Carte participants",1),("Site de distribution",1),("Quantité/ Qualité des vivres",1),
+        ("Qualité/ Quantité des vivres",2),("Travaux",2),("Liste participants",2),("Site d’activité",2),("Distribution de vivres",2),
+        ("Conseils FE/FA",3),("SPC/PECMAM",3);
 
 create table detailsActivites(
     idDetailsActivites int primary key not null AUTO_INCREMENT,
-    nomDetailsActivites varchar(100)
+    nomDetailsActivites varchar(100),
+    idActivites int,
+    foreign key(idActivites) references activites(idActivites)
 );
+-- projet RIMA
+insert into detailsActivites(nomDetailsActivites,idActivites)
+    values ("Planning",10),("Carte participants",10),("Qualité/ Quantité des vivres",10);
 
 
+-- Localisation
+create table region(
+    idRegion int primary key not null AUTO_INCREMENT,
+    nomRegion varchar(100),
+    idProjet int,
+    foreign key (idProjet) references projet(idProjet)
+);
+-- projet RIMA
+insert into region(nomRegion,idProjet) values ("Androy",1),("Atsimo Andrefana",1);
+
+
+create table distrique(
+    idDistrique int primary key not null AUTO_INCREMENT,
+    nomDistrique varchar(100),
+    idRegion int,
+    commune varchar(100),
+    fokotany varchar(100),
+    foreign key (idRegion) references region(idRegion)
+);
+-- projet RIMA
+insert into distrique(nomDistrique,idRegion) values ("AMPANIHY OUEST",1),("BELOHA",1),("TSIHOMBE",1);
+
+
+
+-- Gestion demande
+create table categireAppel(
+    idCategireAppel int primary key not null AUTO_INCREMENT,
+    nomCategireAppel varchar(500),
+    description varchar(1000)
+);
+insert into categireAppel(nomCategireAppel) values ("Catégorie 1"),("Catégorie 2"),("Catégorie 3"),("Catégorie 4"),("Autre");
 
 create table demande(
     idDemande int primary key not null AUTO_INCREMENT,
