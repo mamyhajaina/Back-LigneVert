@@ -13,27 +13,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.Mapoesa.model.Region;
+import com.Mapoesa.model.Activite;
 import com.Mapoesa.models.utils.EnumMessages;
 import com.Mapoesa.models.utils.ReponseHttp;
-import com.Mapoesa.service.RegionService;
+import com.Mapoesa.service.ActiviteService;
 
 
 @RestController
-@RequestMapping("region")
-public class RegionController {
+@RequestMapping("activite")
+public class ActiviteController {
 	
 	@Autowired
 	private JdbcTemplate jdbc;
 	
 	@Autowired
-	RegionService service;
+	ActiviteService service;
 	
-	@GetMapping("/idProjet")
-	public ResponseEntity<ReponseHttp> idProjet(@RequestParam int idProjet) throws SQLException 
+	@GetMapping("/idVolet")
+	public ResponseEntity<ReponseHttp> findByIdProjet(@RequestParam int idVolet) throws SQLException 
 	{
 		try (Connection con=jdbc.getDataSource().getConnection()) {	
-			ReponseHttp rep = new ReponseHttp(EnumMessages.SELECT_SUCCESS.getMessage(),this.service.findByIdProjet(idProjet,con));
+			ReponseHttp rep = new ReponseHttp(EnumMessages.SELECT_SUCCESS.getMessage(),this.service.findByIdVolet(idVolet,con));
 			return new ResponseEntity<>(rep, HttpStatus.OK);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -72,7 +72,7 @@ public class RegionController {
 	}
 	
 	@GetMapping("/inserte")
-	public ResponseEntity<ReponseHttp> inserte(@RequestBody Region inpute) throws SQLException 
+	public ResponseEntity<ReponseHttp> inserte(@RequestBody Activite inpute) throws SQLException 
 	{
 		try (Connection con=jdbc.getDataSource().getConnection()) {	
 			this.service.save(inpute, con);

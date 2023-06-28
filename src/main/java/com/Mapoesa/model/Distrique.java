@@ -15,8 +15,8 @@ public class Distrique{
 	@Column(name = "nomDistrique" )
 	private String nomDistrique;
 	
-	@Column(name = "idProjet" )
-	private int idProjet;
+	@Column(name = "idRegion" )
+	private int idRegion;
 	
 	@Column(name = "commune" )
 	private String commune;
@@ -26,6 +26,14 @@ public class Distrique{
 	
 	
 	
+
+	public int getIdRegion() {
+		return idRegion;
+	}
+
+	public void setIdRegion(int idRegion) {
+		this.idRegion = idRegion;
+	}
 
 	public String getCommune() {
 		return commune;
@@ -41,14 +49,6 @@ public class Distrique{
 
 	public void setFokotany(String fokotany) {
 		this.fokotany = fokotany;
-	}
-
-	public int getIdProjet() {
-		return idProjet;
-	}
-
-	public void setIdProjet(int idProjet) {
-		this.idProjet = idProjet;
 	}
 
 	public int getIdDistrique() {

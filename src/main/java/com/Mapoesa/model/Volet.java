@@ -9,29 +9,29 @@ import mg.manohisoa.databasePersistence.annotation.Table;
 public class Volet{
 	
 	 
-	@Column(name = "idvolet" )
-	private int idvolet;
+	@Column(name = "idVolet" )
+	private int idVolet;
 	 
 	@Column(name = "nomVolet" )
-	private String nomProjet;
+	private String nomVolet;
 
 	@Column(name = "idProjet" )
 	private int idProjet;
 
-	public int getIdvolet() {
-		return idvolet;
+	public int getIdVolet() {
+		return idVolet;
 	}
 
-	public void setIdvolet(int idvolet) {
-		this.idvolet = idvolet;
+	public void setIdVolet(int idVolet) {
+		this.idVolet = idVolet;
 	}
 
-	public String getNomProjet() {
-		return nomProjet;
+	public String getNomVolet() {
+		return nomVolet;
 	}
 
-	public void setNomProjet(String nomProjet) {
-		this.nomProjet = nomProjet;
+	public void setNomVolet(String nomVolet) {
+		this.nomVolet = nomVolet;
 	}
 
 	public int getIdProjet() {
@@ -41,6 +41,8 @@ public class Volet{
 	public void setIdProjet(int idProjet) {
 		this.idProjet = idProjet;
 	}
+
+	
 	
 	
 

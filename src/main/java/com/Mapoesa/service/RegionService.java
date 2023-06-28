@@ -12,6 +12,21 @@ import mg.manohisoa.databasePersistence.GenericRepo;
 @Service
 public class RegionService {
 	
+	public List<Region> findByIdProjet(int id,Connection con ) throws Exception {
+		 
+		try { 
+			List<Region> refs =  GenericRepo.find(Region.class, con, "idProjet=?",id );
+			 
+			return refs;
+		} catch (Exception e) {
+			if (con != null) {
+			}
+			e.printStackTrace();
+			throw e;
+		} 
+
+	}
+	
 	public Region findById(int id,Connection con ) throws Exception {
 		 
 		try { 
