@@ -12,25 +12,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.Mapoesa.model.Region;
+import com.Mapoesa.model.Volet;
 import com.Mapoesa.models.utils.EnumMessages;
 import com.Mapoesa.models.utils.ReponseHttp;
-import com.Mapoesa.service.RegionService;
+import com.Mapoesa.service.VoletService;
 
 
 @RestController
-@RequestMapping("region")
-public class RegionController {
+@RequestMapping("volet")
+public class VoletController {
 	
 	@Autowired
 	private JdbcTemplate jdbc;
 	
 	@Autowired
-	RegionService service;
+	VoletService service;
 	
 	@GetMapping("/idProjet")
-	public ResponseEntity<ReponseHttp> idProjet(@RequestParam int idProjet) throws SQLException 
+	public ResponseEntity<ReponseHttp> findByIdProjet(@RequestParam int idProjet) throws SQLException 
 	{
 		try (Connection con=jdbc.getDataSource().getConnection()) {	
 			ReponseHttp rep = new ReponseHttp(EnumMessages.SELECT_SUCCESS.getMessage(),this.service.findByIdProjet(idProjet,con));
@@ -72,7 +71,7 @@ public class RegionController {
 	}
 	
 	@GetMapping("/inserte")
-	public ResponseEntity<ReponseHttp> inserte(@RequestBody Region inpute) throws SQLException 
+	public ResponseEntity<ReponseHttp> inserte(@RequestBody Volet inpute) throws SQLException 
 	{
 		try (Connection con=jdbc.getDataSource().getConnection()) {	
 			this.service.save(inpute, con);

@@ -5,16 +5,16 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.Mapoesa.model.Distrique;
+import com.Mapoesa.model.Volet;
 
 import mg.manohisoa.databasePersistence.GenericRepo;
 
 @Service
-public class DistriqueService {
+public class VoletService {
 	
-	public List<Distrique> findByIdRegion(int idRegion,Connection con ) throws Exception {
+	public List<Volet> findByIdProjet(int idprojet,Connection con ) throws Exception {
 		try { 
-			List<Distrique> refs =  GenericRepo.find(Distrique.class, con,"idRegion=?",idRegion);
+			List<Volet> refs =  GenericRepo.find(Volet.class, con,"idProjet=?",idprojet);
 			return refs;
 		} catch (Exception e) {
 			if (con != null) {
@@ -25,10 +25,10 @@ public class DistriqueService {
 
 	}
 	
-	public Distrique findById(int id,Connection con ) throws Exception {
+	public Volet findById(int id,Connection con ) throws Exception {
 		 
 		try { 
-			List<Distrique> refs =  GenericRepo.find(Distrique.class, con, "idDistrique=?",id );
+			List<Volet> refs =  GenericRepo.find(Volet.class, con, "idvolet=?",id );
 			 
 			return refs.isEmpty() ? null: refs.get(0);
 		} catch (Exception e) {
@@ -40,9 +40,9 @@ public class DistriqueService {
 
 	}
 	
-	public List<Distrique> findAll(Connection con ) throws Exception {
+	public List<Volet> findAll(Connection con ) throws Exception {
 		try { 
-			List<Distrique> refs =  GenericRepo.find(Distrique.class, con,"");
+			List<Volet> refs =  GenericRepo.find(Volet.class, con,"");
 			return refs;
 		} catch (Exception e) {
 			if (con != null) {
@@ -53,7 +53,7 @@ public class DistriqueService {
 
 	}
 	
-	public void save(Distrique input,Connection conn) throws Exception {
+	public void save(Volet input,Connection conn) throws Exception {
 		try { 
 			GenericRepo.insert(input, conn);
 		} catch (Exception e) {
@@ -66,9 +66,9 @@ public class DistriqueService {
 
 	}
 	
-	public void update(Distrique input,Connection conn) throws Exception {
+	public void update(Volet input,Connection conn) throws Exception {
 		try { 
-			GenericRepo.update(input, conn, "idDistrique = ?",input.getIdDistrique());
+			GenericRepo.update(input, conn, "idProjet = ?",input.getIdProjet());
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;

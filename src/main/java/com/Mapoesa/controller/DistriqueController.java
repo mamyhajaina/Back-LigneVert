@@ -29,6 +29,20 @@ public class DistriqueController {
 	@Autowired
 	DistriqueService service;
 	
+	@GetMapping("/idRegion")
+	public ResponseEntity<ReponseHttp> idRegion(@RequestParam int idRegion) throws SQLException 
+	{
+		try (Connection con=jdbc.getDataSource().getConnection()) {	
+			ReponseHttp rep = new ReponseHttp(EnumMessages.SELECT_SUCCESS.getMessage(),this.service.findByIdRegion(idRegion,con));
+			return new ResponseEntity<>(rep, HttpStatus.OK);
+			} catch (Exception e) {
+				e.printStackTrace();
+				ReponseHttp rep = new ReponseHttp(e.getMessage(),null);
+				return new ResponseEntity<ReponseHttp>(rep, HttpStatus.BAD_REQUEST);
+			}finally {
+			}
+	}
+	
 	@GetMapping("/id")
 	public ResponseEntity<ReponseHttp> id(@RequestParam int id) throws SQLException 
 	{
