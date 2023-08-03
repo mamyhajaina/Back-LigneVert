@@ -20,6 +20,19 @@ public class Projet{
 	
 	@Column(name = "powerAppId" )
 	private String powerAppId;
+	
+	@Column(name = "couleur" )
+	private String couleur;
+	
+	
+
+	public String getCouleur() {
+		return couleur;
+	}
+
+	public void setCouleur(String couleur) {
+		this.couleur = couleur;
+	}
 
 	public int getIdProjet() {
 		return idProjet;

@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -57,18 +58,22 @@ public class ProjetController {
 			}
 	}
 	
-	@GetMapping("/inserte")
+	@PostMapping("/inserte")
 	public ResponseEntity<ReponseHttp> inserte(@RequestBody Projet inpute) throws SQLException 
 	{
-		try (Connection con=jdbc.getDataSource().getConnection()) {	
+		Connection con = null;
+		try {	
+			con = jdbc.getDataSource().getConnection();
+			con.setAutoCommit(false);
 			this.service.save(inpute, con);
-			ReponseHttp rep = new ReponseHttp(EnumMessages.SELECT_SUCCESS.getMessage(),"ok");
+			ReponseHttp rep = new ReponseHttp(EnumMessages.SELECT_SUCCESS.getMessage(),this.service.findByNomProjet(inpute.getNomProjet(), con));
 			return new ResponseEntity<>(rep, HttpStatus.OK);
 			} catch (Exception e) {
 				e.printStackTrace();
 				ReponseHttp rep = new ReponseHttp(e.getMessage(),null);
 				return new ResponseEntity<ReponseHttp>(rep, HttpStatus.BAD_REQUEST);
 			}finally {
+				con.commit();
 			}
 	}
 	

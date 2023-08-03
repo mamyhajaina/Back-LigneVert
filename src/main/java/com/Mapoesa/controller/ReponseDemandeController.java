@@ -13,30 +13,27 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.Mapoesa.model.Utilisateur;
+import com.Mapoesa.model.ReponseDemande;
 import com.Mapoesa.models.utils.EnumMessages;
 import com.Mapoesa.models.utils.ReponseHttp;
-import com.Mapoesa.service.UtilisateurService;
+import com.Mapoesa.service.ReponseDemandeService;
 
 
 @RestController
-@RequestMapping("utilisateur")
-public class UtilisateurController {
+@RequestMapping("reponseDemande")
+public class ReponseDemandeController {
 	
 	@Autowired
 	private JdbcTemplate jdbc;
 	
 	@Autowired
-	UtilisateurService service;
+	ReponseDemandeService service;
 	
-	@GetMapping("/login")
-	public ResponseEntity<ReponseHttp> login(@RequestParam String motsDePasse,@RequestParam String adresseMail) throws SQLException 
+	@GetMapping("/nonRepondu")
+	public ResponseEntity<ReponseHttp> nonRepondu(@RequestParam int idProjet) throws SQLException 
 	{
 		try (Connection con=jdbc.getDataSource().getConnection()) {	
-			System.out.println("motsDePasse: " + motsDePasse);
-			System.out.println("adresseMail: " + adresseMail);
-			ReponseHttp rep = new ReponseHttp(EnumMessages.SELECT_SUCCESS.getMessage(),this.service.login(adresseMail,motsDePasse, con));
+			ReponseHttp rep = new ReponseHttp(EnumMessages.SELECT_SUCCESS.getMessage(),this.service.getByIdProjetNomRepondu(idProjet,con));
 			return new ResponseEntity<>(rep, HttpStatus.OK);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -47,10 +44,27 @@ public class UtilisateurController {
 	}
 	
 	@GetMapping("/id")
-	public ResponseEntity<ReponseHttp> id(@RequestParam int id) throws SQLException 
+	public ResponseEntity<ReponseHttp> id(@RequestParam int idProjet) throws SQLException 
 	{
 		try (Connection con=jdbc.getDataSource().getConnection()) {	
-			ReponseHttp rep = new ReponseHttp(EnumMessages.SELECT_SUCCESS.getMessage(),this.service.findById(id,con));
+			ReponseHttp rep = new ReponseHttp(EnumMessages.SELECT_SUCCESS.getMessage(),this.service.getByIdProjet(idProjet,con));
+			return new ResponseEntity<>(rep, HttpStatus.OK);
+			} catch (Exception e) {
+				e.printStackTrace();
+				ReponseHttp rep = new ReponseHttp(e.getMessage(),null);
+				return new ResponseEntity<ReponseHttp>(rep, HttpStatus.BAD_REQUEST);
+			}finally {
+			}
+	}
+	
+	@GetMapping("/delete/id")
+	public ResponseEntity<ReponseHttp> deleteById(@RequestParam int id) throws SQLException 
+	{
+		try (Connection con=jdbc.getDataSource().getConnection()) {	
+			ReponseDemande reponseDemande= new ReponseDemande();
+			reponseDemande.setIdReponseDemande(id);;
+			this.service.delete(reponseDemande,con);
+			ReponseHttp rep = new ReponseHttp(EnumMessages.SELECT_SUCCESS.getMessage(),"Ok");
 			return new ResponseEntity<>(rep, HttpStatus.OK);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -74,15 +88,34 @@ public class UtilisateurController {
 			}
 	}
 	
-	@PostMapping("/insert")
-	public ResponseEntity<ReponseHttp> insert(@RequestBody Utilisateur input) throws SQLException 
+	@PostMapping("/inserte")
+	public ResponseEntity<ReponseHttp> inserte(@RequestBody ReponseDemande inpute) throws SQLException 
 	{
 		Connection con=null;
 		try {	
-			con = jdbc.getDataSource().getConnection();
+			con=jdbc.getDataSource().getConnection();
 			con.setAutoCommit(false);
-			this.service.save(input, con);
-			ReponseHttp rep = new ReponseHttp(EnumMessages.SELECT_SUCCESS.getMessage(),"Ok");
+			this.service.save(inpute, con);
+			ReponseHttp rep = new ReponseHttp(EnumMessages.SELECT_SUCCESS.getMessage(),"ok");
+			return new ResponseEntity<>(rep, HttpStatus.OK);
+			} catch (Exception e) {
+				e.printStackTrace();
+				ReponseHttp rep = new ReponseHttp(e.getMessage(),null);
+				return new ResponseEntity<ReponseHttp>(rep, HttpStatus.BAD_REQUEST);
+			}finally {
+				con.commit();
+			}
+	}
+	
+	@PostMapping("/update")
+	public ResponseEntity<ReponseHttp> uptade(@RequestBody ReponseDemande inpute) throws SQLException 
+	{
+		Connection con=null;
+		try {	
+			con=jdbc.getDataSource().getConnection();
+			con.setAutoCommit(false);
+			this.service.update(inpute, con);
+			ReponseHttp rep = new ReponseHttp(EnumMessages.SELECT_SUCCESS.getMessage(),"ok");
 			return new ResponseEntity<>(rep, HttpStatus.OK);
 			} catch (Exception e) {
 				e.printStackTrace();

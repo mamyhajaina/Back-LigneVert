@@ -19,7 +19,7 @@ public class Utilisateur{
 	private String prenom;
 	
 	@Column(name = "age" )
-	private int age;
+	private Integer age;
 	
 	@Column(name = "sexe" )
 	private String sexe;
@@ -34,11 +34,29 @@ public class Utilisateur{
 	private String motsDePasse;
 	
 	@Column(name = "idRoleCompte" )
-	private int idRoleCompte;
+	private Integer idRoleCompte;
+	
+	@Column(name = "idProjet" )
+	private Integer idProjet;
 	
 	private RoleCompte roleCompte;
 
 	
+	
+
+
+
+	public Integer getIdProjet() {
+		return idProjet;
+	}
+
+
+
+	public void setIdProjet(Integer idProjet) {
+		this.idProjet = idProjet;
+	}
+
+
 
 	public int getIdUtiliateur() {
 		return idUtiliateur;
@@ -60,18 +78,6 @@ public class Utilisateur{
 
 	public void setNom(String nom) {
 		this.nom = nom;
-	}
-
-
-
-	public int getAge() {
-		return age;
-	}
-
-
-
-	public void setAge(int age) {
-		this.age = age;
 	}
 
 
@@ -154,15 +160,29 @@ public class Utilisateur{
 
 
 
-	public int getIdRoleCompte() {
+	public Integer getAge() {
+		return age;
+	}
+
+
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
+
+
+
+	public Integer getIdRoleCompte() {
 		return idRoleCompte;
 	}
 
 
 
-	public void setIdRoleCompte(int idRoleCompte) {
+	public void setIdRoleCompte(Integer idRoleCompte) {
 		this.idRoleCompte = idRoleCompte;
 	}
+	
+	
 
 
 	

@@ -5,46 +5,16 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.Mapoesa.model.Projet;
+import com.Mapoesa.model.Activite;
 
 import mg.manohisoa.databasePersistence.GenericRepo;
 
 @Service
-public class ProjetService {
+public class CategorieAppelService {
 	
-	public Projet findById(int id,Connection con ) throws Exception {
-		 
+	public List<Activite> findByIdVolet(int idVolet,Connection con ) throws Exception {
 		try { 
-			List<Projet> refs =  GenericRepo.find(Projet.class, con, "idProjet=?",id );
-			 
-			return refs.isEmpty() ? null: refs.get(0);
-		} catch (Exception e) {
-			if (con != null) {
-			}
-			e.printStackTrace();
-			throw e;
-		} 
-
-	}
-	
-	public Projet findByNomProjet(String nomProjet,Connection con ) throws Exception {
-		 
-		try { 
-			List<Projet> refs =  GenericRepo.find(Projet.class, con, "nomProjet=?",nomProjet);
-			 
-			return refs.isEmpty() ? null: refs.get(0);
-		} catch (Exception e) {
-			if (con != null) {
-			}
-			e.printStackTrace();
-			throw e;
-		} 
-
-	}
-	
-	public List<Projet> findAll(Connection con ) throws Exception {
-		try { 
-			List<Projet> refs =  GenericRepo.find(Projet.class, con,"");
+			List<Activite> refs =  GenericRepo.find(Activite.class, con,"idVolet=?",idVolet);
 			return refs;
 		} catch (Exception e) {
 			if (con != null) {
@@ -55,7 +25,35 @@ public class ProjetService {
 
 	}
 	
-	public void save(Projet input,Connection conn) throws Exception {
+	public Activite findById(int id,Connection con ) throws Exception {
+		 
+		try { 
+			List<Activite> refs =  GenericRepo.find(Activite.class, con, "idvolet=?",id );
+			 
+			return refs.isEmpty() ? null: refs.get(0);
+		} catch (Exception e) {
+			if (con != null) {
+			}
+			e.printStackTrace();
+			throw e;
+		} 
+
+	}
+	
+	public List<Activite> findAll(Connection con ) throws Exception {
+		try { 
+			List<Activite> refs =  GenericRepo.find(Activite.class, con,"");
+			return refs;
+		} catch (Exception e) {
+			if (con != null) {
+			}
+			e.printStackTrace();
+			throw e;
+		} 
+
+	}
+	
+	public void save(Activite input,Connection conn) throws Exception {
 		try { 
 			GenericRepo.insert(input, conn);
 		} catch (Exception e) {
@@ -63,13 +61,14 @@ public class ProjetService {
 			e.printStackTrace();
 			throw e;
 		} finally {
+				conn.commit();
 		}
 
 	}
 	
-	public void update(Projet input,Connection conn) throws Exception {
+	public void update(Activite input,Connection conn) throws Exception {
 		try { 
-			GenericRepo.update(input, conn, "idProjet = ?",input.getIdProjet());
+			GenericRepo.update(input, conn, "idProjet = ?",input.getIdActivites());
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
