@@ -69,7 +69,6 @@ public class UtilisateurService {
 			e.printStackTrace();
 			throw e;
 		} finally {
-				conn.commit();
 		}
 
 	}
